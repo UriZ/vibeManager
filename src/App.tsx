@@ -1,25 +1,34 @@
 import React from 'react';
-import logo from './logo.svg';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
+
+// Import components
+import SimpleNavigation from './components/layout/SimpleNavigation';
+
+// Import pages
+import Dashboard from './pages/Dashboard';
+import Organization from './pages/Organization';
+import Monitoring from './pages/Monitoring';
+import Automation from './pages/Automation';
+import Integrations from './pages/Integrations';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+        <SimpleNavigation />
+        <div style={{ flex: 1 }}>
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/organization" element={<Organization />} />
+            <Route path="/monitoring" element={<Monitoring />} />
+            <Route path="/automation" element={<Automation />} />
+            <Route path="/integrations" element={<Integrations />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </div>
+      </div>
+    </Router>
   );
 }
 
