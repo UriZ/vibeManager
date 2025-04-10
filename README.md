@@ -1,77 +1,29 @@
 # Vibe Manager
 
-## Overview
-Vibe Manager is a comprehensive management platform designed to reduce cognitive load for middle managers by automating routine tasks, maintaining organizational context, and enabling autonomous decision-making.
+## TL;DR
+Vibe Manager is an AI-powered management platform that reduces cognitive load for managers by automating routine tasks, maintaining organizational context, and enabling autonomous decision-making. Built with React, TypeScript, and modern web technologies.
 
 ## Core Capabilities
 
-### Organizational Awareness Hub
-- Track team relationships and reporting lines
-- Monitor work assignments and responsibilities
-- Provide visual, intuitive interface for org structure
+- **Organizational Awareness**: Track team structure, work assignments, and reporting lines
+- **Autonomous Operations**: Handle emails, calendar, budget approvals, and daily decisions
+- **Status Monitoring**: Real-time dashboards for team progress and risk identification
+- **Task Automation**: Meeting prep, status reports, and follow-ups
+- **Integration Hub**: Connect with calendars, email, task tools, and communication platforms
 
-### Autonomous Operations Center
-- Send routine emails autonomously
-- Manage calendar conflicts
-- Process budget approvals under thresholds
-- Make day-to-day operational decisions
+## Quick Start
 
-### Status Monitoring & Summaries
-- Real-time dashboards for team progress
-- Risk identification and monitoring
-- Important email filtering and summarization
-- Upcoming event tracking and preparation
-
-### Task Automation Engine
-- 1:1 meeting preparation and summaries
-- Status report generation
-- Recurring task management
-- Meeting follow-ups
-
-## Technical Architecture
-
-### Frontend
-- React with TypeScript
-- TailwindCSS for styling
-- Component-based UI design
-- Responsive dashboard layout
-
-### Backend
-- Node.js with Express
-- MongoDB for data storage
-- RESTful API design
-- Authentication with JWT
-
-### Integration Framework
-- API Connectors for various systems
-- Webhook receivers for real-time updates
-- OAuth-based authentication for third-party services
-
-## Getting Started
-
-### Prerequisites
-- Node.js (v16+)
-- npm or yarn
-- Git
-
-### Installation
 ```bash
-# Clone the repository
-git clone https://github.com/yourusername/vibe-manager.git
-
-# Navigate to the project directory
-cd vibe-manager
-
 # Install dependencies
 npm install
 
-# Start the development server
+# Start development server
 npm start
 ```
 
 ## Project Structure
 ```
-vibe-manager/
+vibemanager/
 ├── public/              # Static files
 ├── src/                 # Source files
 │   ├── components/      # Reusable UI components
@@ -82,30 +34,28 @@ vibe-manager/
 │   ├── assets/          # Images, fonts, etc.
 │   ├── App.tsx          # Main App component
 │   └── index.tsx        # Entry point
-├── .gitignore           # Git ignore file
-├── package.json         # Dependencies and scripts
-├── tsconfig.json        # TypeScript configuration
-└── README.md            # Project documentation
 ```
 
 ## Development Roadmap
 
-### Phase 1: Core Infrastructure & UI Framework
-- Basic dashboard layout
-- Authentication system
-- Team visualization component
-- Settings for integration configuration
+1. **Core UI Framework**: Dashboard layout, team visualization
+2. **Integration Framework**: Connect to external systems
+3. **Autonomous Capabilities**: Decision engine, task automation
 
-### Phase 2: Integration Framework
-- Calendar integration
-- Email systems
-- Task management tools
-- Communication platforms
+## Available Scripts
 
-### Phase 3: Autonomous Capabilities
-- Decision engine
-- Task automation
-- Approval workflows
+- **npm start**: Run development server
+- **npm test**: Run tests
+- **npm run build**: Create production build
 
-## License
-MIT
+## Technical Stack
+- React with TypeScript
+- TailwindCSS for styling
+- React Router for navigation
+- RESTful API design
+- JWT authentication
+
+## Learn More
+- [React Documentation](https://reactjs.org/)
+- [TypeScript Documentation](https://www.typescriptlang.org/)
+- [Create React App Documentation](https://facebook.github.io/create-react-app/docs/getting-started)
