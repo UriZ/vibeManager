@@ -55,15 +55,55 @@ const TeamDashboard: React.FC<TeamDashboardProps> = ({
     return teamMembers.filter(member => member.managerId === managerId).length;
   };
   
-  // Get top skill for a team member
-  const getTopSkill = (member: TeamMember) => {
-    return member.skills.length > 0 ? member.skills[0] : 'N/A';
+  // Get current task for a team member
+  const getCurrentTask = (member: TeamMember) => {
+    const highPriorityTasks = member.currentTasks.filter(task => task.priority === 'high');
+    if (highPriorityTasks.length > 0) {
+      return highPriorityTasks[0].name;
+    }
+    return member.currentTasks.length > 0 ? member.currentTasks[0].name : 'No active tasks';
   };
   
-  // Get project count (using tasks as proxy)
-  const getProjectCount = (member: TeamMember) => {
-    // Count unique projects from tasks (simplified)
-    return Math.max(1, Math.ceil(member.currentTasks.length / 2));
+  // Get task priority color
+  const getTaskPriorityColor = (member: TeamMember) => {
+    const highPriorityTasks = member.currentTasks.filter(task => task.priority === 'high');
+    if (highPriorityTasks.length > 0) {
+      return '#ef4444'; // red for high priority
+    }
+    return '#6b7280'; // default gray
+  };
+  
+  // Calculate sprint time remaining in days
+  const getSprintTimeRemaining = (member: TeamMember) => {
+    if (!member.currentSprint) return 0;
+    
+    const today = new Date();
+    const endDate = new Date(member.currentSprint.endDate);
+    const diffTime = Math.max(0, endDate.getTime() - today.getTime());
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    
+    return diffDays;
+  };
+  
+  // Calculate committed vs. completed tasks
+  const getTaskProgress = (member: TeamMember) => {
+    if (!member.currentSprint) return { committed: 0, completed: 0 };
+    
+    return {
+      committed: member.currentSprint.commitedPoints,
+      completed: member.currentSprint.completedPoints
+    };
+  };
+  
+  // Get progress bar color based on progress
+  const getProgressBarColor = (committed: number, completed: number) => {
+    if (completed > committed) {
+      return '#ef4444'; // red if over-committed
+    }
+    if (completed / committed >= 0.8) {
+      return '#22c55e'; // green if almost done
+    }
+    return '#3b82f6'; // blue for normal progress
   };
 
   return (
@@ -196,21 +236,70 @@ const TeamDashboard: React.FC<TeamDashboardProps> = ({
               </div>
             </div>
             
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '16px' }}>
+            <div style={{ marginBottom: '16px' }}>
               {member.isManager && (
-                <div>
+                <div style={{ marginBottom: '12px' }}>
                   <p style={{ fontSize: '12px', color: '#6b7280', marginBottom: '4px' }}>Team Size</p>
                   <p style={{ fontSize: '16px', fontWeight: '600' }}>{getTeamSize(member.id)}</p>
                 </div>
               )}
-              <div>
-                <p style={{ fontSize: '12px', color: '#6b7280', marginBottom: '4px' }}>Projects</p>
-                <p style={{ fontSize: '16px', fontWeight: '600' }}>{getProjectCount(member)}</p>
+              <div style={{ marginBottom: '12px' }}>
+                <p style={{ fontSize: '12px', color: '#6b7280', marginBottom: '4px' }}>Current Task</p>
+                <p style={{ 
+                  fontSize: '14px', 
+                  fontWeight: '500',
+                  color: getTaskPriorityColor(member),
+                  whiteSpace: 'nowrap',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  maxWidth: '100%'
+                }}>
+                  {getCurrentTask(member)}
+                </p>
               </div>
-              <div>
-                <p style={{ fontSize: '12px', color: '#6b7280', marginBottom: '4px' }}>Skills</p>
-                <p style={{ fontSize: '16px', fontWeight: '600' }}>{getTopSkill(member)}</p>
-              </div>
+              
+              {member.currentSprint && (
+                <div>
+                  <p style={{ fontSize: '12px', color: '#6b7280', marginBottom: '4px' }}>Sprint Progress</p>
+                  
+                  {/* Progress bar */}
+                  <div style={{ position: 'relative', height: '8px', backgroundColor: '#e5e7eb', borderRadius: '4px', marginBottom: '4px' }}>
+                    <div style={{ 
+                      position: 'absolute',
+                      left: 0,
+                      top: 0,
+                      height: '100%',
+                      width: `${Math.min(100, (getTaskProgress(member).completed / getTaskProgress(member).committed) * 100)}%`,
+                      backgroundColor: getProgressBarColor(getTaskProgress(member).committed, getTaskProgress(member).completed),
+                      borderRadius: '4px'
+                    }} />
+                    {getTaskProgress(member).completed > getTaskProgress(member).committed && (
+                      <div style={{ 
+                        position: 'absolute',
+                        left: '100%',
+                        top: 0,
+                        height: '100%',
+                        width: '2px',
+                        backgroundColor: '#000',
+                      }} />
+                    )}
+                  </div>
+                  
+                  {/* Progress text */}
+                  <p style={{ 
+                    fontSize: '14px', 
+                    fontWeight: '500',
+                    color: getProgressBarColor(getTaskProgress(member).committed, getTaskProgress(member).completed)
+                  }}>
+                    {getTaskProgress(member).completed} of {getTaskProgress(member).committed} points
+                    {getSprintTimeRemaining(member) > 0 && (
+                      <span style={{ color: '#6b7280', fontWeight: 'normal', marginLeft: '8px' }}>
+                        ({getSprintTimeRemaining(member)} days left)
+                      </span>
+                    )}
+                  </p>
+                </div>
+              )}
             </div>
             
             <div>

@@ -17,8 +17,8 @@ const Organization: React.FC = () => {
       avatar: 'YO',
       directReports: ['m1', 'm2', 'm3', 'ic1'],
       currentTasks: [
-        { id: 't1', name: 'Quarterly Planning', priority: 'high', dueDate: '2025-04-20', status: 'in-progress' },
-        { id: 't2', name: 'Budget Review', priority: 'medium', dueDate: '2025-04-25', status: 'not-started' },
+        { id: 't1', name: 'Q2 Strategic Planning', priority: 'high', dueDate: '2025-04-20', status: 'in-progress' },
+        { id: 't2', name: 'Engineering Budget Review', priority: 'medium', dueDate: '2025-04-25', status: 'not-started' },
       ],
       workload: 70,
       skills: ['Leadership', 'Strategy', 'Engineering Management'],
@@ -54,8 +54,8 @@ const Organization: React.FC = () => {
       avatar: 'AJ',
       directReports: ['dev1', 'dev2', 'dev3'],
       currentTasks: [
-        { id: 't3', name: 'Team Performance Reviews', priority: 'high', dueDate: '2025-04-15', status: 'in-progress' },
-        { id: 't4', name: 'Architecture Planning', priority: 'medium', dueDate: '2025-04-18', status: 'not-started' },
+        { id: 't3', name: 'Complete Team Performance Reviews', priority: 'high', dueDate: '2025-04-15', status: 'in-progress' },
+        { id: 't4', name: 'Microservices Architecture Planning', priority: 'medium', dueDate: '2025-04-18', status: 'not-started' },
       ],
       workload: 85,
       skills: ['Leadership', 'Project Management', 'Software Architecture'],
@@ -89,8 +89,8 @@ const Organization: React.FC = () => {
       avatar: 'ER',
       directReports: ['des1', 'des2'],
       currentTasks: [
-        { id: 't5', name: 'Design System Update', priority: 'high', dueDate: '2025-04-17', status: 'in-progress' },
-        { id: 't6', name: 'User Research Planning', priority: 'medium', dueDate: '2025-04-22', status: 'not-started' },
+        { id: 't5', name: 'Design System 2.0 Implementation', priority: 'high', dueDate: '2025-04-17', status: 'in-progress' },
+        { id: 't6', name: 'Q2 User Research Planning', priority: 'medium', dueDate: '2025-04-22', status: 'not-started' },
       ],
       workload: 75,
       skills: ['UI/UX', 'Design Leadership', 'User Research'],
