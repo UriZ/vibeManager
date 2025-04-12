@@ -143,49 +143,7 @@ const SimpleDashboard: React.FC = () => {
           </div>
         </div>
       </div>
-      
-      {/* Key Features Section */}
-      <div style={{ marginTop: '30px' }}>
-        <h2 style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: '16px' }}>Key Features</h2>
-        
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '20px' }}>
-          <div style={{ background: 'white', padding: '20px', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.12)' }}>
-            <h3 style={{ fontSize: '16px', fontWeight: '500', marginBottom: '8px' }}>Organizational Awareness</h3>
-            <ul style={{ listStyleType: 'disc', paddingLeft: '20px', fontSize: '14px', color: '#4b5563' }}>
-              <li>Track team relationships and org structure</li>
-              <li>Monitor who's working on what</li>
-              <li>Understand reporting lines and responsibilities</li>
-            </ul>
-          </div>
-          
-          <div style={{ background: 'white', padding: '20px', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.12)' }}>
-            <h3 style={{ fontSize: '16px', fontWeight: '500', marginBottom: '8px' }}>Autonomous Operations</h3>
-            <ul style={{ listStyleType: 'disc', paddingLeft: '20px', fontSize: '14px', color: '#4b5563' }}>
-              <li>Send routine emails autonomously</li>
-              <li>Manage calendar conflicts and reschedule meetings</li>
-              <li>Handle budget approvals under set thresholds</li>
-            </ul>
-          </div>
-          
-          <div style={{ background: 'white', padding: '20px', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.12)' }}>
-            <h3 style={{ fontSize: '16px', fontWeight: '500', marginBottom: '8px' }}>Status Monitoring</h3>
-            <ul style={{ listStyleType: 'disc', paddingLeft: '20px', fontSize: '14px', color: '#4b5563' }}>
-              <li>Team progress tracking</li>
-              <li>Risk identification and monitoring</li>
-              <li>Important email filtering and summarization</li>
-            </ul>
-          </div>
-          
-          <div style={{ background: 'white', padding: '20px', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.12)' }}>
-            <h3 style={{ fontSize: '16px', fontWeight: '500', marginBottom: '8px' }}>Task Automation</h3>
-            <ul style={{ listStyleType: 'disc', paddingLeft: '20px', fontSize: '14px', color: '#4b5563' }}>
-              <li>1:1 meeting preparation and summaries</li>
-              <li>Regular status report generation</li>
-              <li>Recurring task management</li>
-            </ul>
-          </div>
-        </div>
-      </div>
+
     </div>
   );
 };
