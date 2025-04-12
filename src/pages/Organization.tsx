@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { TeamMember, Department, Task, Sprint } from '../models/TeamMember';
 import HierarchicalTeamView from '../components/organization/HierarchicalTeamView';
+import TeamDashboard from '../components/organization/TeamDashboard';
 
 const Organization: React.FC = () => {
   // Sample data for team members with hierarchical structure
@@ -340,53 +341,104 @@ const Organization: React.FC = () => {
     { id: 'd5', name: 'Operations', headId: 'rt1', headCount: 6, projects: 1 },
   ]);
 
+  // State to track the current view (dashboard or team view)
+  const [currentView, setCurrentView] = useState<'dashboard' | 'team'>('dashboard');
+  const [selectedManagerId, setSelectedManagerId] = useState<string | null>(null);
+  
   // Get department head name by ID
   const getDepartmentHeadName = (headId: string) => {
     const head = teamMembers.find(member => member.id === headId);
     return head ? head.name : 'Unknown';
   };
+  
+  // Get the current user (you)
+  const currentUser = teamMembers.find(member => member.id === 'user')!;
+  
+  // Get the selected manager
+  const selectedManager = selectedManagerId ? 
+    teamMembers.find(member => member.id === selectedManagerId) : null;
+  
+  // Handle view team click
+  const handleViewTeam = (managerId: string) => {
+    setSelectedManagerId(managerId);
+    setCurrentView('team');
+  };
+  
+  // Handle back button click
+  const handleBackClick = () => {
+    if (currentView === 'team') {
+      // If viewing a manager's team, go back to dashboard
+      if (selectedManagerId) {
+        const manager = teamMembers.find(m => m.id === selectedManagerId);
+        if (manager && manager.managerId && manager.managerId !== 'user') {
+          // If the current manager has a manager that's not you, go to that manager's view
+          setSelectedManagerId(manager.managerId);
+        } else {
+          // Otherwise go back to the dashboard
+          setCurrentView('dashboard');
+          setSelectedManagerId(null);
+        }
+      } else {
+        setCurrentView('dashboard');
+      }
+    }
+  };
 
   return (
     <div style={{ background: '#f3f4f6', minHeight: '100vh', padding: '20px' }}>
-      <div>
-        <h1 style={{ fontSize: '24px', fontWeight: 'bold', marginBottom: '24px' }}>Organization</h1>
+      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
+          <h1 style={{ fontSize: '24px', fontWeight: 'bold' }}>Organization</h1>
+          
+          {currentView === 'team' && (
+            <button 
+              onClick={handleBackClick}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                padding: '8px 16px',
+                backgroundColor: '#f3f4f6',
+                border: '1px solid #e5e7eb',
+                borderRadius: '8px',
+                cursor: 'pointer',
+                fontSize: '14px'
+              }}
+            >
+              ← Back to {selectedManagerId ? 'Dashboard' : ''}
+            </button>
+          )}
+        </div>
         
-        {/* Department Overview */}
-        <div style={{ background: 'white', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.12)', padding: '24px', marginBottom: '24px' }}>
-          <h2 style={{ fontSize: '20px', fontWeight: '600', marginBottom: '16px' }}>Department Overview</h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '16px' }}>
-            {departments.map(dept => (
-              <div key={dept.id} style={{ 
-                border: '1px solid #e5e7eb', 
-                borderRadius: '8px', 
-                padding: '16px',
-                backgroundColor: dept.id === 'd1' ? '#f0f9ff' : 'white' // Highlight Engineering department
-              }}>
-                <h3 style={{ fontWeight: '600', fontSize: '16px' }}>{dept.name}</h3>
-                <div style={{ fontSize: '14px', color: '#4b5563', marginTop: '8px' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
-                    <span>Head:</span>
-                    <span style={{ fontWeight: '500' }}>{getDepartmentHeadName(dept.headId)}</span>
-                  </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
-                    <span>Team Size:</span>
-                    <span style={{ fontWeight: '500' }}>{dept.headCount}</span>
-                  </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <span>Active Projects:</span>
-                    <span style={{ fontWeight: '500' }}>{dept.projects}</span>
-                  </div>
-                </div>
-              </div>
-            ))}
+        {currentView === 'dashboard' ? (
+          <div style={{ background: 'white', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.12)', padding: '32px' }}>
+            <TeamDashboard 
+              teamMembers={teamMembers} 
+              currentUser={currentUser} 
+              onViewTeam={handleViewTeam} 
+            />
           </div>
-        </div>
-        
-        {/* Hierarchical Team View */}
-        <div style={{ background: 'white', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.12)', padding: '24px' }}>
-          <h2 style={{ fontSize: '20px', fontWeight: '600', marginBottom: '16px' }}>Team Structure</h2>
-          <HierarchicalTeamView teamMembers={teamMembers} currentManagerId={null} />
-        </div>
+        ) : (
+          <div style={{ background: 'white', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.12)', padding: '32px' }}>
+            {selectedManager ? (
+              <div>
+                <div style={{ marginBottom: '24px' }}>
+                  <h2 style={{ fontSize: '20px', fontWeight: '600', marginBottom: '8px' }}>{selectedManager.name}'s Team</h2>
+                  <p style={{ color: '#6b7280' }}>{selectedManager.role} • {selectedManager.department}</p>
+                </div>
+                
+                <TeamDashboard 
+                  teamMembers={teamMembers} 
+                  currentUser={selectedManager} 
+                  onViewTeam={handleViewTeam} 
+                />
+              </div>
+            ) : (
+              <div style={{ textAlign: 'center', padding: '40px' }}>
+                <p>No manager selected. Please go back to the dashboard.</p>
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );
