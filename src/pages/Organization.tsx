@@ -414,7 +414,8 @@ const Organization: React.FC = () => {
             <TeamDashboard 
               teamMembers={teamMembers} 
               currentUser={currentUser} 
-              onViewTeam={handleViewTeam} 
+              onViewTeam={handleViewTeam}
+              isTeamView={false}
             />
           </div>
         ) : (
@@ -429,7 +430,8 @@ const Organization: React.FC = () => {
                 <TeamDashboard 
                   teamMembers={teamMembers} 
                   currentUser={selectedManager} 
-                  onViewTeam={handleViewTeam} 
+                  onViewTeam={handleViewTeam}
+                  isTeamView={true}
                 />
               </div>
             ) : (

@@ -5,12 +5,14 @@ interface TeamDashboardProps {
   teamMembers: TeamMember[];
   currentUser: TeamMember;
   onViewTeam: (managerId: string) => void;
+  isTeamView?: boolean;
 }
 
 const TeamDashboard: React.FC<TeamDashboardProps> = ({ 
   teamMembers, 
   currentUser,
-  onViewTeam
+  onViewTeam,
+  isTeamView = false
 }) => {
   // Get direct reports for the current user
   const directReports = teamMembers.filter(member => 
@@ -68,63 +70,65 @@ const TeamDashboard: React.FC<TeamDashboardProps> = ({
     <div>
       <div style={{ textAlign: 'center', marginBottom: '30px' }}>
         <h1 style={{ fontSize: '24px', fontWeight: 'bold', marginBottom: '8px' }}>Team Dashboard</h1>
-        <p style={{ color: '#6b7280' }}>Your Direct Reports ({directReports.length})</p>
+        <p style={{ color: '#6b7280' }}>{isTeamView ? `${currentUser.name}'s Team` : 'Your Direct Reports'} ({directReports.length})</p>
       </div>
       
-      {/* Current User Card */}
-      <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '40px' }}>
-        <div style={{ 
-          width: '240px',
-          padding: '20px', 
-          backgroundColor: 'white',
-          borderRadius: '12px',
-          boxShadow: '0 4px 6px rgba(0, 0, 0, 0.05)',
-          position: 'relative'
-        }}>
-          <div style={{
-            position: 'absolute',
-            top: '10px',
-            right: '10px',
-            backgroundColor: '#f97316',
-            color: 'white',
-            borderRadius: '4px',
-            padding: '2px 6px',
-            fontSize: '12px',
-            fontWeight: 'bold'
+      {/* Only show the manager card at the top if we're not in team view */}
+      {!isTeamView && (
+        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '40px' }}>
+          <div style={{ 
+            width: '240px',
+            padding: '20px', 
+            backgroundColor: 'white',
+            borderRadius: '12px',
+            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.05)',
+            position: 'relative'
           }}>
-            YOU
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', marginBottom: '16px' }}>
-            <div style={{ 
-              width: '50px', 
-              height: '50px', 
-              borderRadius: '50%', 
-              backgroundColor: '#e5e7eb',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              marginRight: '12px'
+            <div style={{
+              position: 'absolute',
+              top: '10px',
+              right: '10px',
+              backgroundColor: '#f97316',
+              color: 'white',
+              borderRadius: '4px',
+              padding: '2px 6px',
+              fontSize: '12px',
+              fontWeight: 'bold'
             }}>
-              {currentUser.avatar}
+              YOU
             </div>
-            <div>
-              <h3 style={{ fontSize: '16px', fontWeight: 'bold', marginBottom: '4px' }}>You</h3>
-              <p style={{ fontSize: '14px', color: '#6b7280' }}>{currentUser.role}</p>
+            <div style={{ display: 'flex', alignItems: 'center', marginBottom: '16px' }}>
+              <div style={{ 
+                width: '50px', 
+                height: '50px', 
+                borderRadius: '50%', 
+                backgroundColor: '#e5e7eb',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginRight: '12px'
+              }}>
+                {currentUser.avatar}
+              </div>
+              <div>
+                <h3 style={{ fontSize: '16px', fontWeight: 'bold', marginBottom: '4px' }}>You</h3>
+                <p style={{ fontSize: '14px', color: '#6b7280' }}>{currentUser.role}</p>
+              </div>
             </div>
+            <p style={{ 
+              color: '#3b82f6', 
+              fontSize: '14px',
+              fontWeight: '500',
+              textAlign: 'center',
+              padding: '8px',
+              backgroundColor: '#f0f9ff',
+              borderRadius: '4px'
+            }}>
+              {directReports.length} direct reports
+            </p>
           </div>
-          <p style={{ 
-            color: '#3b82f6', 
-            fontSize: '14px',
-            fontWeight: '500',
-            textAlign: 'center',
-            padding: '8px',
-            backgroundColor: '#f0f9ff',
-            borderRadius: '4px'
-          }}>
-            {directReports.length} direct reports
-          </p>
         </div>
-      </div>
+      )}
       
       {/* Direct Reports Grid */}
       <div style={{ 
